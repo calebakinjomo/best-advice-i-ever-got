@@ -8,6 +8,9 @@ newline: exactly the entry and nothing else.
 
 import os
 
+MAX_ENTRY_CHARS = 200
+OUTPUT_PATH = "/output/entry.txt"
+
 ENTRY = (
     "My dad told me never to borrow money to look rich \u2014 "
     "the people you're trying to impress won't be there "
@@ -16,8 +19,13 @@ ENTRY = (
 
 
 def main() -> None:
-    os.makedirs("/output", exist_ok=True)
-    with open("/output/entry.txt", "w", encoding="utf-8") as f:
+    if len(ENTRY) > MAX_ENTRY_CHARS:
+        raise ValueError(
+            f"Entry is {len(ENTRY)} characters, over the "
+            f"{MAX_ENTRY_CHARS}-character limit"
+        )
+    os.makedirs(os.path.dirname(OUTPUT_PATH), exist_ok=True)
+    with open(OUTPUT_PATH, "w", encoding="utf-8") as f:
         f.write(ENTRY)
 
 
